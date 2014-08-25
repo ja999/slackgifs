@@ -4,20 +4,44 @@ class GifsController < ApplicationController
   def index
     # TODO: Render something else than Ryan Gosling gifs. ;)
     response = get_giphy_response('Ryan Gosling')
-    render text: Gif.get_urls(response)
+    urls = Gif.get_urls(response)
+    message = send_to_slack(ENV['post_url'], urls)
+    render text: message
   end
 
   def search
     response = get_giphy_response(params[:text])
-    render text: Gif.get_urls(response)
+    urls = Gif.get_urls(response)
+    message = send_to_slack(ENV['post_url'], urls)
+    render text: message
   end
 
   def single_response_search
     response = get_giphy_response(params[:text])
-    render text: Gif.get_url(response, rand(0..9))
+    url = Gif.get_url(response, rand(0..9))
+    message = send_to_slack(ENV['post_url'], url)
+    render text: message
   end
 
   private
+
+  def send_to_slack(channel, data)
+    # TODO: put this into a service
+    to_send = { text: data }.to_json
+
+    uri = URI.parse(channel)
+    https = Net::HTTP.new(uri.host, uri.port)
+    https.use_ssl = true
+    req = Net::HTTP::Post.new(
+      uri.to_s,
+      initheader = {
+        'Content-Type' => 'application/json'
+      }
+    )
+    req.body = to_send
+    res = https.request(req)
+    res.code == '200' ? 'Gif sent' : 'Gif not sent'
+  end
 
   def get_required
     require 'net/http'
