@@ -5,10 +5,11 @@ class GiphyResponseParser
   end
 
   def original_url(id)
-    get_url(@json['data'][id])
+    @json['data'].present? ? get_url(@json['data'][id]) : 'No results.'
   end
 
   def original_urls
+    return 'No results.' unless @json['data'].present?
     urls = []
     @json['data'].each do |wrapped_gif|
       urls << get_url(wrapped_gif)
