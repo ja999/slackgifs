@@ -3,3 +3,5 @@ config/database.yml
 config/sec_config.yml
 
 log/development.log
+
+tmp/pids/server.pid
