@@ -8,7 +8,13 @@ class GifsController < ApplicationController
   end
 
   def search
-    render json: []
+    response = get_giphy_response(params[:text])
+    render text: Gif.get_urls(response)
+  end
+
+  def single_response_search
+    response = get_giphy_response(params[:text])
+    render text: Gif.get_url(response, rand(0..9))
   end
 
   private
