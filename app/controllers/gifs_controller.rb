@@ -3,8 +3,7 @@ class GifsController < ApplicationController
 
   def index
     # TODO: Render something else than Ryan Gosling gifs. ;)
-    url = search_url('Ryan Gosling')
-    response = Net::HTTP.get_response(URI.parse(url)).body
+    response = get_giphy_response('Ryan Gosling')
     render text: Gif.get_urls(response)
   end
 
@@ -17,6 +16,11 @@ class GifsController < ApplicationController
   def get_required
     require 'net/http'
     require 'open-uri'
+  end
+
+  def get_giphy_response(phrase)
+    url = search_url(phrase)
+    Net::HTTP.get_response(URI.parse(url)).body
   end
 
   def search_url(phrase)
