@@ -34,6 +34,11 @@ GEM
     builder (3.1.4)
     coderay (1.1.0)
     debug_inspector (0.0.2)
+    dotenv (0.11.1)
+      dotenv-deployment (~> 0.0.2)
+    dotenv-deployment (0.0.2)
+    dotenv-rails (0.11.1)
+      dotenv (= 0.11.1)
     erubis (2.7.0)
     hike (1.2.3)
     i18n (0.6.11)
@@ -97,6 +102,7 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   binding_of_caller
+  dotenv-rails
   jbuilder
   pg
   pry

@@ -8,6 +8,7 @@ gem 'rails-api'
 gem 'pg'
 
 gem 'jbuilder'
+gem 'dotenv-rails'
 
 group :development do
   gem 'binding_of_caller'
